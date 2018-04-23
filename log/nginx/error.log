@@ -1,0 +1,1 @@
+2018/04/23 08:29:27 [error] 5#5: *1 open() "/var/www/html/favicon.ico" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "www.lnmp-docker.local:8000", referrer: "http://www.lnmp-docker.local:8000/"

@@ -1,0 +1,2 @@
+172.17.0.1 - - [23/Apr/2018:08:29:26 +0000] "GET / HTTP/1.1" 200 96308 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36" "-"
+172.17.0.1 - - [23/Apr/2018:08:29:27 +0000] "GET /favicon.ico HTTP/1.1" 404 572 "http://www.lnmp-docker.local:8000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36" "-"
