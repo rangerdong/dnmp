@@ -1,5 +1,5 @@
-/.idea
-/log/*
-/mysql/*
-/codes/
-!/codes/public/
+.idea
+log/*
+mysql/*
+codes/
+!codes/public/
