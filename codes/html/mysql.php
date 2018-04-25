@@ -1,4 +1,5 @@
 <?php
+
 $link = mysqli_connect("mysql", "root", "123456", "lnmp");
 
 if (!$link) {
