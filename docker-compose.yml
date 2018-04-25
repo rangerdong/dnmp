@@ -1,5 +1,11 @@
 version: '3'
 
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+
 services:
     nginx:
         image: nginx:alpine
@@ -13,7 +19,10 @@ services:
             - ./log/nginx/:/var/log/nginx:rw
         links:
             - php72:fpm
-            
+        networks:
+            - frontend
+            - backend
+
     php72:
         build: ./images/php/
         expose:
@@ -26,6 +35,8 @@ services:
         links:
             - mysql:mysql
             - redis:redis
+        networks:
+            - backend
             
     mysql:
         build: 

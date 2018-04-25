@@ -22,9 +22,12 @@ RUN apt-get update \
 	   zip \ 
 	   unzip \
 	   git \
+	   procps \
 	&& docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \ 
 	&& docker-php-ext-configure curl --with-curl --with-openssl="/usr/openssl/" \
-	&& docker-php-ext-install -j$(nproc) gd bz2 pdo_mysql mysqli mbstring opcache shmop curl iconv soap sockets simplexml xml fileinfo opcache zip
+	&& docker-php-ext-install -j$(nproc) gd bz2 pdo_mysql mysqli mbstring opcache shmop curl iconv soap sockets simplexml xml fileinfo opcache zip bcmath \ 
+	&& pecl install swoole \ 
+	&& docker-php-ext-enable swoole
 # composer 
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer 
