@@ -2,9 +2,7 @@ version: '3'
 
 networks:
   frontend:
-    driver: bridge
   backend:
-    driver: bridge
 
 services:
     nginx:
@@ -20,7 +18,6 @@ services:
         links:
             - php72:fpm
         networks:
-            - frontend
             - backend
 
     php72:
@@ -36,6 +33,7 @@ services:
             - mysql:mysql
             - redis:redis
         networks:
+            - frontend
             - backend
             
     mysql:
@@ -54,8 +52,12 @@ services:
         volumes:
             - ./mysql:/var/lib/mysql
             - ./log/mysql:/var/log/mysql
+        networks:
+           - backend
 
     redis:
         image: redis:latest
         ports:
             - "6379:6379"
+        networks:
+            - backend
