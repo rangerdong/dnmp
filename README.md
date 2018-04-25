@@ -79,7 +79,7 @@ docker-compose exec php72 /bin/bash
 > 在本机 `host` 内加入
 
 ```
-127.0.01  www.lnmp-docker.local
+127.0.0.1  www.lnmp-docker.local
 127.0.0.1 www.laravel.local
 127.0.0.1 www.lumen.local
 ```
