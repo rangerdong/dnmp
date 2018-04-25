@@ -1,6 +1,4 @@
-*
-!.gitignore
-!/html/
+/*
 !/laravel/
 !/lumen/
-
+!/html/
