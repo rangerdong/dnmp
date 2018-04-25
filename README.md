@@ -9,7 +9,7 @@ git clone https://github.com/rangerdong/dnmp.git
 ```
 > 进入 `dnmp` 目录内，运行容器:
 ```
-docker-compose up -d {nginx mysql php72 reids}
+docker-compose up -d {nginx mysql php72 redis}
 ```
 > 进入容器内部: (更新代码或者执行对应命令)
 ```
