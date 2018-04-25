@@ -132,6 +132,13 @@ $app->configure('laravels');
 
 > 需要将 配置文件中的 LARAVELS_LISTEN_IP 设置为 fpm(即此容器名称) 不然nginx会报连接错误
 
+#### Run Server
+```
+php artisan laravels {start|stop|restart|reload|publish}
+```
+
+
+>### Attention
 > mysql:latest 拉取的最新8.0版本 所以my.cnf会有所不同，因此此项目的cnf文件是8.0的配置
 
 
