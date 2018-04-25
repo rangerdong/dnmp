@@ -97,7 +97,9 @@ docker-compose exec php72 /bin/bash
 # cd /var/www/laravel or lumen
 ```
 > 安装composer包
-
+```
+composer require "hhxsv5/laravel-s:~1.0" -vvv
+```
 ##### 添加Service Provider。
 
 - `Laravel`: 修改文件`config/app.php`
