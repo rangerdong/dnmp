@@ -23,6 +23,7 @@ RUN apt-get update \
 	   unzip \
 	   git \
 	   procps \
+	   wget \
 	&& docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \ 
 	&& docker-php-ext-configure curl --with-curl --with-openssl="/usr/openssl/" \
 	&& docker-php-ext-install -j$(nproc) gd bz2 pdo_mysql mysqli mbstring opcache shmop curl iconv soap sockets simplexml xml fileinfo opcache zip bcmath \ 
@@ -34,3 +35,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ 
 
 
 RUN composer config -g repo.packagist composer https://packagist.phpcomposer.com
+
+cd /tmp && wget https://nodejs.org/dist/v6.9.1/node-v6.9.1-linux-x64.tar.xz \
+ln -s /tmp/node-v6.9.1-linux-x64/bin/node /usr/bin/node \
+ln -s /tmp/node-v6.9.1-linux-x64/bin/npm /usr/bin/npm
