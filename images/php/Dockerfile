@@ -18,6 +18,8 @@ RUN apt-get update \
 	   libpng-dev \
 	   libxml2-dev \
 	   libssl-dev \ 
+	   openssl \
+	   libssl-dev \
 	   libcurl4-openssl-dev \
 	   zip \ 
 	   unzip \
@@ -26,16 +28,27 @@ RUN apt-get update \
 	   wget \
 	&& docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \ 
 	&& docker-php-ext-configure curl --with-curl --with-openssl="/usr/openssl/" \
-	&& docker-php-ext-install -j$(nproc) gd bz2 pdo_mysql mysqli mbstring opcache shmop curl iconv soap sockets simplexml xml fileinfo opcache zip bcmath \ 
-	&& pecl install swoole \ 
-	&& docker-php-ext-enable swoole
-# composer 
+	&& docker-php-ext-install -j$(nproc) gd bz2 pdo_mysql mysqli mbstring opcache shmop curl iconv soap sockets simplexml xml fileinfo opcache zip bcmath 
 
+
+# enable swoole
+RUN cd /tmp \ 
+    && git clone https://github.com/swoole/swoole-src.git \
+	&& ( \
+			cd swoole-src \
+			&& phpize \
+			&& ./configure --enable-swoole-debug --enable-mysqlnd \
+			&& make -j$(nproc) && make install \
+			) \
+	&& rm -r /tmp/swoole-src \
+    && docker-php-ext-enable swoole 
+
+# composer 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer 
 
 
 RUN composer config -g repo.packagist composer https://packagist.phpcomposer.com
 
-cd /tmp && wget https://nodejs.org/dist/v6.9.1/node-v6.9.1-linux-x64.tar.xz \
-ln -s /tmp/node-v6.9.1-linux-x64/bin/node /usr/bin/node \
-ln -s /tmp/node-v6.9.1-linux-x64/bin/npm /usr/bin/npm
+RUN cd /tmp && wget https://nodejs.org/dist/v6.9.1/node-v6.9.1-linux-x64.tar.xz \
+    && ln -s /tmp/node-v6.9.1-linux-x64/bin/node /usr/bin/node \
+    && ln -s /tmp/node-v6.9.1-linux-x64/bin/npm /usr/bin/npm
