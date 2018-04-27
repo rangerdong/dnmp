@@ -7,9 +7,11 @@ networks:
 services:
     nginx:
         image: nginx:alpine
+        container_name: nginx
         ports:
             - "80:80"
             - "443:443"
+        restart: always
         volumes:
             - ./codes/:/var/www/:rw
             - ./conf/nginx/conf.d:/etc/nginx/conf.d:ro
@@ -23,8 +25,10 @@ services:
 
     php72:
         build: ./images/php/
+        container_name: php-fpm
         expose:
             - "9000"
+        restart: always
         volumes:
             - ./codes/:/var/www/:rw
             - ./conf/php/php.ini:/usr/local/etc/php/php.ini:rw
@@ -34,16 +38,17 @@ services:
             - mysql:mysql
             - redis:redis
         networks:
-
             - backend
-            
+
     mysql:
-        build: 
+        build:
             context: ./images/mysql
             args:
                 - MYSQL_VERSION=latest
+        container_name: mysql
         ports:
             - "3306:3306"
+        restart: always
         environment:
             - MYSQL_DATABASE=lnmp
             - MYSQL_USER=mysql
@@ -58,6 +63,8 @@ services:
 
     redis:
         image: redis:latest
+        container_name: redis
+        restart: always
         ports:
             - "6379:6379"
         networks:

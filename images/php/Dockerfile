@@ -43,6 +43,17 @@ RUN cd /tmp \
 	&& rm -r /tmp/swoole-src \
     && docker-php-ext-enable swoole 
 
+RUN apt-get update \
+    && apt-get install -y gcc build-essential \ 
+    && cd /tmp \
+    && wget https://pecl.php.net/get/inotify-2.0.0.tgz \
+    && ( \ 
+        tar -xvf inotify-2.0.0.tgz \
+		&& cd inotify-2.0.0 \
+		&& phpize \
+		&& make -j$(nproc) && make install \
+    ) \
+    && docker-php-ext-enable inotify
 # composer 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer 
 
