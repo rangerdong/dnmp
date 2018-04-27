@@ -18,6 +18,7 @@ services:
         links:
             - php72:fpm
         networks:
+            - frontend
             - backend
 
     php72:
@@ -33,7 +34,7 @@ services:
             - mysql:mysql
             - redis:redis
         networks:
-            - frontend
+
             - backend
             
     mysql:
