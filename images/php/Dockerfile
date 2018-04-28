@@ -50,6 +50,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ 
 RUN composer config -g repo.packagist composer https://packagist.phpcomposer.com
 
 RUN cd /tmp && wget https://nodejs.org/dist/v6.9.1/node-v6.9.1-linux-x64.tar.xz \
+    && xz -d node-v6.9.1-linux-x64.tar.xz \
+    && tar -xvf node-v6.9.1-linux-x64.tar \
     && ln -s /tmp/node-v6.9.1-linux-x64/bin/node /usr/bin/node \
     && ln -s /tmp/node-v6.9.1-linux-x64/bin/npm /usr/bin/npm
 
