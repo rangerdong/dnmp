@@ -55,5 +55,3 @@ RUN cd /tmp && wget https://nodejs.org/dist/v6.9.1/node-v6.9.1-linux-x64.tar.xz 
     && ln -s /tmp/node-v6.9.1-linux-x64/bin/node /usr/bin/node \
     && ln -s /tmp/node-v6.9.1-linux-x64/bin/npm /usr/bin/npm
 
-RUN pecl install inotify \
-    && docker-php-ext-enable inotify 
