@@ -24,7 +24,12 @@ services:
             - backend
 
     php72:
-        build: ./images/php/
+        build: 
+            context: ./images/php/
+            args:
+                - VERSION=${PHP_VERSION}
+                - SWOOLE_INSTALL=${SWOOLE_INSTALL}
+                - NPM_INSTALL=${NPM_INSTALL}
         container_name: php-fpm
         expose:
             - "9000"
@@ -44,7 +49,7 @@ services:
         build:
             context: ./images/mysql
             args:
-                - MYSQL_VERSION=latest
+                - VERSION=${MYSQL_VERSION}
         container_name: mysql
         ports:
             - "3306:3306"
@@ -69,3 +74,13 @@ services:
             - "6379:6379"
         networks:
             - backend
+    filebeat:
+        image: prima/filebeat
+        hostname: filebeat
+        container_name: filebeat
+        restart: always
+        volumes:
+            - ./conf/filebeat/conf/filebeat.yml:/filebeat.yml:rw
+            - ./conf/filebeat/registry:/etc/registry:rw
+            - ./log/:/var/log/system/:rw
+            - ./codes/ucie-app/storage/logs: /var/log/ucie-app/:rw

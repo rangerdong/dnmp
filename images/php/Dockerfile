@@ -1,4 +1,6 @@
-FROM php:7.2-fpm
+ARG VERSION=${VERSION}
+
+FROM php:${VERSION}
 
 #Possible values for ext-name:
 # bcmath bz2 calendar ctype curl dba dom 
@@ -32,7 +34,10 @@ RUN apt-get update \
 
 
 # enable swoole
-RUN cd /tmp \ 
+ARG SWOOLE_INSTALL=false
+
+RUN if [ ${SWOOLE_INSTALL} = true ]; then \
+    cd /tmp \ 
     && git clone https://github.com/swoole/swoole-src.git \
 	&& ( \
 			cd swoole-src \
@@ -41,7 +46,8 @@ RUN cd /tmp \
 			&& make -j$(nproc) && make install \
 			) \
 	&& rm -r /tmp/swoole-src \
-    && docker-php-ext-enable swoole 
+    && docker-php-ext-enable swoole \
+;fi
 
 # composer 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer 
@@ -49,9 +55,14 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ 
 
 RUN composer config -g repo.packagist composer https://packagist.phpcomposer.com
 
-RUN cd /tmp && wget https://nodejs.org/dist/v6.9.1/node-v6.9.1-linux-x64.tar.xz \
+ARG NPM_INSTALL=false
+
+
+RUN if [ ${NPM_INSTALL} = true ]; then \
+    cd /tmp && wget https://nodejs.org/dist/v6.9.1/node-v6.9.1-linux-x64.tar.xz \
     && xz -d node-v6.9.1-linux-x64.tar.xz \
     && tar -xvf node-v6.9.1-linux-x64.tar \
     && ln -s /tmp/node-v6.9.1-linux-x64/bin/node /usr/bin/node \
-    && ln -s /tmp/node-v6.9.1-linux-x64/bin/npm /usr/bin/npm
+    && ln -s /tmp/node-v6.9.1-linux-x64/bin/npm /usr/bin/npm \
+;fi
 
