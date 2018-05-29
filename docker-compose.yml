@@ -3,6 +3,8 @@ version: '3'
 networks:
   frontend:
   backend:
+  elk-filebeat:
+        external: true
 
 services:
     nginx:
@@ -78,9 +80,14 @@ services:
         image: prima/filebeat
         hostname: filebeat
         container_name: filebeat
-        restart: always
         volumes:
             - ./conf/filebeat/conf/filebeat.yml:/filebeat.yml:rw
             - ./conf/filebeat/registry:/etc/registry:rw
+            - ./conf/filebeat/module.d/:/module/:rw
             - ./log/:/var/log/system/:rw
-            - ./codes/ucie-app/storage/logs: /var/log/ucie-app/:rw
+            - ./log/filebeat:/data/logs:rw
+            - ./codes/ucie-app/storage/logs/:/var/log/ucie-app/:rw
+        external_links:
+            - logstash
+        networks:
+           - elk-filebeat

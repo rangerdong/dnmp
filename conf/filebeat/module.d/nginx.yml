@@ -1,0 +1,5 @@
+- module: nginx
+  access:
+    var.paths: ["/var/log/system/nginx/ucie-app-access.log"]
+  error:
+    var.paths: ["/var/log/system/nginx/ucie-app-error.log"]
