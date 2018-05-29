@@ -2,7 +2,7 @@ filebeat:
   prospectors:
     - input_type: log
       paths:
-        - /var/log/system/nginx/ucie-app-access.log #日志文件地址
+        - "/var/log/ucie-app/*.log" #日志文件地址
   registry_file: /etc/registry/mark # 记录日志读取位置，防止重启后重复读取
 output:
   logstash:
