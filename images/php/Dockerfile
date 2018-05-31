@@ -69,12 +69,10 @@ RUN if [ ${NPM_INSTALL} = true ]; then \
 ARG SUPERVISOR_INSTALL=false
 
 RUN if [ ${SUPERVISOR_INSTALL} = true ]; then \
-    apt-get install -y python-setuptools python-dev \
-    && cd /tmp && wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py \
-        && python get-pip.py \
-    && pip install supervisor \
-    COPY supervisord.conf /etc/  \
-    #ENTRYPOINT ["/usr/bin/supervisord", "-n", "-c",  "/etc/supervisord.conf"] \
+    apt-get install  -y supervisor \
+	&& echo_supervisord_conf > /etc/supervisord.conf \ 
 ;fi
+
+CMD ["supervisord", "-n", "-c", "/etc/supervisord.conf"]
 
 

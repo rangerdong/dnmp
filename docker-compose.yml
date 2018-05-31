@@ -41,12 +41,9 @@ services:
             - ./codes/:/var/www/:rw
             - ./conf/php/php.ini:/usr/local/etc/php/php.ini:rw
             - ./conf/php/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf:rw
-            - ./conf/supervisor/:/etc/supervisor/supervisord.d/
+            - ./conf/supervisor/conf.d/:/etc/supervisor/supervisord.d/
+            - ./conf/supervisor/supervisord.conf:/etc/supervisord.conf
             - ./log/php-fpm/:/var/log/php-fpm/:rw
-        command: 
-            - supervisor reread
-            - supervisor update
-            - supervisor start all
         links:
             - mysql:mysql
             - redis:redis
