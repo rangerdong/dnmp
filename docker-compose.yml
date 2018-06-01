@@ -32,7 +32,6 @@ services:
                 - VERSION=${PHP_VERSION}
                 - SWOOLE_INSTALL=${SWOOLE_INSTALL}
                 - NPM_INSTALL=${NPM_INSTALL}
-                - SUPERVISOR_INSTALL=${SUPERVISOR_INSTALL}
         container_name: php-fpm
         expose:
             - "9000"
@@ -41,9 +40,9 @@ services:
             - ./codes/:/var/www/:rw
             - ./conf/php/php.ini:/usr/local/etc/php/php.ini:rw
             - ./conf/php/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf:rw
-            - ./conf/supervisor/conf.d/:/etc/supervisor/supervisord.d/
-            - ./conf/supervisor/supervisord.conf:/etc/supervisord.conf
+            - ./conf/supervisor/:/etc/supervisor/supervisord.d/:rw
             - ./log/php-fpm/:/var/log/php-fpm/:rw
+            - ./log/supervisor/:/var/log/supervisor/
         links:
             - mysql:mysql
             - redis:redis

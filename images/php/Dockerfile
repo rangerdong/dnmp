@@ -66,13 +66,11 @@ RUN if [ ${NPM_INSTALL} = true ]; then \
     && ln -s /tmp/node-v6.9.1-linux-x64/bin/npm /usr/bin/npm \
 ;fi
 
-ARG SUPERVISOR_INSTALL=false
 
-RUN if [ ${SUPERVISOR_INSTALL} = true ]; then \
-    apt-get install  -y supervisor \
-	&& echo_supervisord_conf > /etc/supervisord.conf \ 
-;fi
+RUN apt-get install  -y supervisor \
+	&& echo_supervisord_conf > /etc/supervisord.conf 
 
+COPY supervisord.conf /etc/
 CMD ["supervisord", "-n", "-c", "/etc/supervisord.conf"]
 
 
