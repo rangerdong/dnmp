@@ -1,6 +1,6 @@
-ARG VERSION=${VERSION}
+ARG PHP_CLI_VERSION=${PHP_CLI_VERSION}
 
-FROM php:${VERSION}
+FROM php:${PHP_CLI_VERSION}
 
 #Possible values for ext-name:
 # bcmath bz2 calendar ctype curl dba dom 
@@ -32,20 +32,30 @@ RUN apt-get update \
 	&& docker-php-ext-configure curl --with-curl --with-openssl="/usr/openssl/" \
 	&& docker-php-ext-install -j$(nproc) gd bz2 pdo_mysql mysqli mbstring opcache shmop curl iconv soap sockets simplexml xml fileinfo opcache zip bcmath 
 
+# composer 
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer 
 
-# enable swoole
-ARG SWOOLE_INSTALL=false
 
-RUN if [ ${SWOOLE_INSTALL} = true ]; then \
-    cd /tmp \ 
-    && git clone https://github.com/swoole/swoole-src.git \
-	&& ( \
-			cd swoole-src \
-			&& phpize \
-			&& ./configure --enable-swoole-debug --enable-mysqlnd \
-			&& make -j$(nproc) && make install \
-			) \
-	&& rm -r /tmp/swoole-src \
-    && docker-php-ext-enable swoole \
+RUN composer config -g repo.packagist composer https://packagist.phpcomposer.com
+
+ARG NPM_INSTALL=false
+
+
+RUN if [ ${NPM_INSTALL} = true ]; then \
+    cd /tmp && wget https://nodejs.org/dist/v6.9.1/node-v6.9.1-linux-x64.tar.xz \
+    && xz -d node-v6.9.1-linux-x64.tar.xz \
+    && tar -xvf node-v6.9.1-linux-x64.tar \
+    && ln -s /tmp/node-v6.9.1-linux-x64/bin/node /usr/bin/node \
+    && ln -s /tmp/node-v6.9.1-linux-x64/bin/npm /usr/bin/npm \
 ;fi
+
+
+RUN apt-get install  -y supervisor \
+	&& echo_supervisord_conf > /etc/supervisord.conf 
+
+COPY supervisord.conf /etc/supervisord.conf
+
+ENTRYPOINT ["/usr/bin/supervisord", "-n", "-c",  "/etc/supervisord.conf"]
+
+WORKDIR /var/www
 
