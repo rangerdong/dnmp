@@ -71,6 +71,6 @@ RUN apt-get install  -y supervisor \
 	&& echo_supervisord_conf > /etc/supervisord.conf 
 
 COPY supervisord.conf /etc/
-CMD ["supervisord", "-n", "-c", "/etc/supervisord.conf"]
+#CMD ["supervisord", "-c", "/etc/supervisord.conf"]
 
 

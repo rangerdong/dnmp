@@ -93,3 +93,4 @@ services:
             - logstash
         networks:
            - elk-filebeat
+           
