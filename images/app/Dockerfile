@@ -28,6 +28,8 @@ RUN apt-get update \
 	   git \
 	   procps \
 	   wget \
+	   cron \ 
+	   vim \
 	&& docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \ 
 	&& docker-php-ext-configure curl --with-curl --with-openssl="/usr/openssl/" \
 	&& docker-php-ext-install -j$(nproc) gd bz2 pdo_mysql mysqli mbstring opcache shmop curl iconv soap sockets simplexml xml fileinfo opcache zip bcmath 
@@ -55,6 +57,12 @@ RUN apt-get install  -y supervisor \
 
 COPY supervisord.conf /etc/supervisord.conf
 
+## extensaion crontab ## 
+ADD crontab.d/ /var/spool/cron/crontabs/
+
+RUN chown -R root:crontab /var/spool/cron/crontabs/* \
+ && chmod -R 600 /var/spool/cron/crontabs/*
+ 
 ENTRYPOINT ["/usr/bin/supervisord", "-n", "-c",  "/etc/supervisord.conf"]
 
 WORKDIR /var/www

@@ -58,6 +58,7 @@ services:
             - ./codes/:/var/www:rw
             - ./conf/supervisor/:/etc/supervisor/supervisord.d/:rw
             - ./log/supervisor/:/var/log/supervisor/
+            - ./log/crontab/:/var/log/crontab/
         networks:
             - backend
     mysql:
@@ -107,13 +108,15 @@ services:
            - elk-filebeat
 
     rabbitmq:
-        image: rabbitmq:3.7.5-management
+        build: 
+            context: ./images/rabbitmq
         container_name: rabbitmq
-        hostname: rabbitmq
         environment:
-            - RABBITMQ_DEFAULT_USER=root
-            - RABBITMQ_DEFAULT_PASS=root
+            - RABBITMQ_DEFAULT_USER=rabbit
+            - RABBITMQ_DEFAULT_PASS=123456
         ports:
             - "5672:5672"
-            - "15672:15672"            
+            - "15672:15672"
+        networks:
+            - backend        
            

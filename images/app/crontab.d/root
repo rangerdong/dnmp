@@ -1,0 +1,1 @@
+* * * * * php /var/www/ucie-app/artisan schedule:run >> /var/log/crontab/ucie-app.log
