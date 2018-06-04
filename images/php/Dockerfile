@@ -22,6 +22,7 @@ RUN apt-get update \
 	   libssl-dev \ 
 	   openssl \
 	   libssl-dev \
+	   libmcrypt-dev \ 
 	   libcurl4-openssl-dev \
 	   zip \ 
 	   unzip \
@@ -32,6 +33,7 @@ RUN apt-get update \
 	&& docker-php-ext-configure curl --with-curl --with-openssl="/usr/openssl/" \
 	&& docker-php-ext-install -j$(nproc) gd bz2 pdo_mysql mysqli mbstring opcache shmop curl iconv soap sockets simplexml xml fileinfo opcache zip bcmath 
 
+RUN pecl install mcrypt-1.0.1 && docker-php-ext-enable mcrypt
 
 # enable swoole
 ARG SWOOLE_INSTALL=false
