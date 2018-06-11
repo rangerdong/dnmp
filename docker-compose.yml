@@ -1,8 +1,8 @@
 version: '3'
 
 networks:
-  frontend:
   backend:
+        driver: bridge
   elk-filebeat:
         external: true
 
@@ -22,8 +22,9 @@ services:
         links:
             - php:fpm
         networks:
-            - frontend
-            - backend
+            backend: 
+                aliases:
+                    - image.ucie.local
 
     php:
         build: 
@@ -61,6 +62,7 @@ services:
             - ./log/crontab/:/var/log/crontab/
         networks:
             - backend
+ 
     mysql:
         build:
             context: ./images/mysql
