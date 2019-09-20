@@ -50,4 +50,6 @@ RUN if [ ${SWOOLE_INSTALL} = true ]; then \
 	&& rm -r /tmp/swoole-src \
     && docker-php-ext-enable swoole \
 ;fi
-
+RUN pecl install yaf &&  docker-php-ext-enable  yaf
+RUN pecl install yar && docker-php-ext-enable yar
+RUN pecl install seaslog && docker-php-ext-enable seaslog

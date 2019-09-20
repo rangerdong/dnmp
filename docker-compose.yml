@@ -3,8 +3,6 @@ version: '3'
 networks:
   backend:
         driver: bridge
-  elk-filebeat:
-        external: true
 
 services:
     nginx:
@@ -25,6 +23,9 @@ services:
             backend: 
                 aliases:
                     - image.ucie.local
+                    - card.rocketbird.local
+                    - yaf.local
+                    - codebase.rocketbird.local
 
     php:
         build: 
@@ -57,12 +58,24 @@ services:
         restart: always
         volumes: 
             - ./codes/:/var/www:rw
+            - ./conf/php/php.ini:/usr/local/etc/php/php.ini:rw
             - ./conf/supervisor/:/etc/supervisor/supervisord.d/:rw
             - ./log/supervisor/:/var/log/supervisor/
             - ./log/crontab/:/var/log/crontab/
         networks:
             - backend
- 
+    npm:
+        # image: node:latest
+        build:
+           context: ./images/npm
+        container_name: npm
+        ports:
+            - "8888:8888" 
+        volumes:
+            - ./codes/:/var/www:rw
+        command: "npm start"
+        networks:
+            - backend 
     mysql:
         build:
             context: ./images/mysql
@@ -92,33 +105,4 @@ services:
             - "6379:6379"
         networks:
             - backend
-           
-    filebeat:
-        image: prima/filebeat
-        hostname: filebeat
-        container_name: filebeat
-        volumes:
-            - ./conf/filebeat/conf/filebeat.yml:/filebeat.yml:rw
-            - ./conf/filebeat/registry:/etc/registry:rw
-            - ./conf/filebeat/module.d/:/module/:rw
-            - ./log/:/var/log/system/:rw
-            - ./log/filebeat:/data/logs:rw
-            - ./codes/ucie-app/storage/logs/:/var/log/ucie-app/:rw
-        external_links:
-            - logstash
-        networks:
-           - elk-filebeat
-
-    rabbitmq:
-        build: 
-            context: ./images/rabbitmq
-        container_name: rabbitmq
-        environment:
-            - RABBITMQ_DEFAULT_USER=rabbit
-            - RABBITMQ_DEFAULT_PASS=123456
-        ports:
-            - "5672:5672"
-            - "15672:15672"
-        networks:
-            - backend        
            

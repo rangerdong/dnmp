@@ -62,6 +62,11 @@ ADD crontab.d/ /var/spool/cron/crontabs/
 
 RUN chown -R root:crontab /var/spool/cron/crontabs/* \
  && chmod -R 600 /var/spool/cron/crontabs/*
+
+RUN pecl install yaf && docker-php-ext-enable  yaf
+RUN pecl install yar && docker-php-ext-enable  yar
+RUN pecl install seaslog && docker-php-ext-enable  seaslog
+
  
 ENTRYPOINT ["/usr/bin/supervisord", "-n", "-c",  "/etc/supervisord.conf"]
 
