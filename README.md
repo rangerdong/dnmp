@@ -9,11 +9,11 @@ git clone https://github.com/rangerdong/dnmp.git
 ```
 > 进入 `dnmp` 目录内，运行容器:
 ```
-docker-compose up -d {nginx mysql php72 redis}
+docker-compose up -d {nginx mysql php redis}
 ```
 > 进入容器内部: (更新代码或者执行对应命令)
 ```
-docker-compose exec php72 /bin/bash 
+docker-compose exec php /bin/bash 
 ```
 ### 目录结构
 ```
@@ -87,13 +87,13 @@ docker-compose exec php72 /bin/bash
 运行即可
 
 ### 使用swoole加速laravel项目
-> 本php72镜像已经安装好swoole拓展与swoole服务
+> 本php-fpm镜像已经安装好swoole拓展与swoole服务
 
 #### 下载[laravels package](https://github.com/hhxsv5/laravel-s) 
 > 进入php72容器中，并进入到laravel/lumen项目路径中，此处以默认项目为例
 
 ```
-docker-compose exec php72 /bin/bash
+docker-compose exec php /bin/bash
 # cd /var/www/laravel or lumen
 ```
 > 安装composer包
