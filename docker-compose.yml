@@ -26,6 +26,7 @@ services:
                     - card.rocketbird.local
                     - yaf.local
                     - codebase.rocketbird.local
+                    - staff-zt.rocketbird.local 
 
     php:
         build: 
