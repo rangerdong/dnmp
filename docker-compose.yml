@@ -44,8 +44,6 @@ services:
             - ./conf/php/php.ini:/usr/local/etc/php/php.ini:rw
             - ./conf/php/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf:rw
             - ./log/php-fpm/:/var/log/php-fpm/:rw
-        links:
-            - mysql:mysql
         networks:
             - backend
             
